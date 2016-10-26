@@ -5,5 +5,20 @@
 		<title></title>
 	</head>
 	<body>
+		<div id="test" style="width: 200px;height: 30px;border: 1px solid #eee;">
+		</div>
+		<br />
+		<div id="test1" style="width: 200px;height: 30px;border: 1px solid #eee;">
+		</div>
+		<br />
+		<div id="test2" style="width: 200px;height: 30px;border: 1px solid #eee;">
+		</div>
+		<script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.surround.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$("#test").surround({color:'#f00'});
+			$("#test1").surround({width:14});
+			$("#test2").surround({time:[3000,2000,2000,3000]});
+		</script>
 	</body>
 </html>
