@@ -36,8 +36,9 @@
 			this.create4edge($(this.element));
         },
         create4edge:function(e){
-        	var width = e.width();
-        	var height = e.height();
+        	var borderWidth = this.settings.width;
+        	var width = e.width() + borderWidth/2;
+        	var height = e.height()+ borderWidth/2;
         	var time1;
 			var time2;
 			var time3;
@@ -78,10 +79,10 @@
 			var borderWidth = this.settings.width;
 			var type = this.settings.type;
         	e.css({position:'relative'});
-        	var $div1 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;'></div>")
-        	var $div2 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;'></div>")
-        	var $div3 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;'></div>")
-        	var $div4 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;'></div>")
+        	var $div1 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;border-radius:"+borderWidth/2+"px'></div>")
+        	var $div2 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;border-radius:"+borderWidth/2+"px'></div>")
+        	var $div3 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;border-radius:"+borderWidth/2+"px'></div>")
+        	var $div4 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;border-radius:"+borderWidth/2+"px'></div>")
         	switch (type) {
         		case 'CW':
         		case 'CCW':
