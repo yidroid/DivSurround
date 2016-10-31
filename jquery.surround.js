@@ -33,7 +33,6 @@
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 return;
             }
-            console.log('init');
 			this.create4edge($(this.element));
         },
         create4edge:function(e){
@@ -43,28 +42,39 @@
 			var time2;
 			var time3;
 			var time4;
-        	if (this.settings.time.length = 3) {
+			if (Array.isArray(this.settings.time)) {
+				if (this.settings.time.length = 3) {
         		time1 = this.settings.time[0];
         		time2 = this.settings.time[1];
         		time3 = this.settings.time[2];
         		time4 = this.settings.time[1];
-        	} else if (this.settings.time.length = 2) {
-        		time1 = this.settings.time[0];
-        		time2 = this.settings.time[1];
-        		time3 = this.settings.time[0];
-        		time4 = this.settings.time[1];
-        	} else if (this.settings.time.length = 2) {
-        		time1 = this.settings.time[0];
-        		time2 = this.settings.time[0];
-        		time3 = this.settings.time[0];
-        		time4 = this.settings.time[0];
-        	} else {
-        		time1 = this.settings.time[0];
-        		time2 = this.settings.time[1];
-        		time3 = this.settings.time[2];
-        		time4 = this.settings.time[3];
-        	}
-        	
+        		} else if (this.settings.time.length = 2) {
+	        		time1 = this.settings.time[0];
+	        		time2 = this.settings.time[1];
+	        		time3 = this.settings.time[0];
+	        		time4 = this.settings.time[1];
+	        	} else if (this.settings.time.length = 2) {
+	        		time1 = this.settings.time[0];
+	        		time2 = this.settings.time[0];
+	        		time3 = this.settings.time[0];
+	        		time4 = this.settings.time[0];
+	        	} else if (this.settings.time.length = 4) {
+	        		time1 = this.settings.time[0];
+	        		time2 = this.settings.time[1];
+	        		time3 = this.settings.time[2];
+	        		time4 = this.settings.time[3];
+	        	} else {
+	        		time1 = 200;
+	        		time2 = 200;
+	        		time3 = 200;
+	        		time4 = 200;
+	        	}
+			} else if (typeof(this.settings.time) == 'number') {
+					time1 = this.settings.time;
+	        		time2 = this.settings.time;
+	        		time3 = this.settings.time;
+	        		time4 = 200;
+			}
 			var borderWidth = this.settings.width;
 			var type = this.settings.type;
         	e.css({position:'relative'});
@@ -101,7 +111,6 @@
 				var t2 = time2;
 				var t3 = time3;
 				var t4 = time4;
-				
 				switch (type){
 					//顺时针
 					case 'CW':
@@ -162,15 +171,6 @@
 						if ($div1.width() >= width) {
 							t1 = 0;
 						}
-//						if ($div2.height() >= height ) {
-//							t2 = 0;
-//						}
-//						if ($div3.width() >= width) {
-//							t3 = 0;
-//						}
-//						if ($div4.height() >= height ) {
-//							t4 = 0;
-//						}
 						$div1.css({display:'block'});
 						$div1.animate({width:width,left:-borderWidth},t1,function(){
 						});

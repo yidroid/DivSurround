@@ -16,14 +16,18 @@
 		<div id="test1" style="width: 200px;height: 30px;border: 1px solid #eee;">
 		</div>
 		<br />
-		<div id="test2" style="width: 200px;height: 30px;border: 1px solid #eee;">
+		<div id="test2" style="width: 200px;height: 30px;cursor:pointer">
+		</div>
+		<br />
+		<div id="test3" style="width: 200px;height: 30px;cursor:pointer">
 		</div>
 		<script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jquery.surround.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			$("#test").surround({time:[3000,2000,2000,3000],color:'#f00'});
-			$("#test1").surround({width:14,type:'CCW'});
-			$("#test2").surround({type:'MID'});
+			$("#test1").surround({width:4,type:'CCW'});
+			$("#test2").surround({type:'MID',color:'#eee'});
+			$("#test3").surround({time:1000,type:'MID',color:'#eee'});
 		</script>
 	</body>
 </html>
