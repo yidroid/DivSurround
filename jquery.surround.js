@@ -7,18 +7,23 @@
 
 ; (function($, window, document, undefined) {
 	// Create the defaults once
+	//time 上右下左 时间单位毫秒
+	//width 边框
+	//color 颜色
+	//type 类型（顺时针，逆时针，中间扩散等）
     var pluginName = "surround",
         defaults = {
-            time : [300,200,300,200],
+            time : [200],
             width : 2,
-            color : '#000'
+            color : '#000',
+            type : 'CW'
         };
 
     function Surround(element,options) {
     	this.element = element;
         this.settings = $.extend({}, defaults, options);
         this._name = pluginName;
-        this.version = 'v1.0.0';
+        this.version = 'v1.0.1';
         this.init();
     }
 
@@ -34,15 +39,55 @@
         create4edge:function(e){
         	var width = e.width();
         	var height = e.height();
-        	var time1 = this.settings.time[0];
-			var time2 = this.settings.time[1];
-			var time3 = this.settings.time[2];
-			var time4 = this.settings.time[3];
+        	var time1;
+			var time2;
+			var time3;
+			var time4;
+        	if (this.settings.time.length = 3) {
+        		time1 = this.settings.time[0];
+        		time2 = this.settings.time[1];
+        		time3 = this.settings.time[2];
+        		time4 = this.settings.time[1];
+        	} else if (this.settings.time.length = 2) {
+        		time1 = this.settings.time[0];
+        		time2 = this.settings.time[1];
+        		time3 = this.settings.time[0];
+        		time4 = this.settings.time[1];
+        	} else if (this.settings.time.length = 2) {
+        		time1 = this.settings.time[0];
+        		time2 = this.settings.time[0];
+        		time3 = this.settings.time[0];
+        		time4 = this.settings.time[0];
+        	} else {
+        		time1 = this.settings.time[0];
+        		time2 = this.settings.time[1];
+        		time3 = this.settings.time[2];
+        		time4 = this.settings.time[3];
+        	}
+        	
+			var borderWidth = this.settings.width;
+			var type = this.settings.type;
         	e.css({position:'relative'});
-        	var $div1 = $("<div style='z-index:999;position: absolute;top: -"+this.settings.width+"px;left: -"+this.settings.width+"px;width: 0px;height: 0px;border: "+this.settings.width/2+"px solid "+this.settings.color+";display: none;'></div>")
-	        var $div2 = $("<div style='z-index:999;position: absolute;top: -"+this.settings.width+"px;right: -"+this.settings.width+"px;width: 0px;height: 0px;border: "+this.settings.width/2+"px solid "+this.settings.color+";display: none;'></div>")
-	        var $div3 = $("<div style='z-index:999;position: absolute;bottom: -"+this.settings.width+"px;right: -"+this.settings.width+"px;width: 0px;height: 0px;border: "+this.settings.width/2+"px solid "+this.settings.color+";display: none;'></div>")
-	        var $div4 = $("<div style='z-index:999;position: absolute;bottom: -"+this.settings.width+"px;left: -"+this.settings.width+"px;width: 0px;height: 0px;border: "+this.settings.width/2+"px solid "+this.settings.color+";display: none;'></div>")
+        	var $div1 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;'></div>")
+        	var $div2 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;'></div>")
+        	var $div3 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;'></div>")
+        	var $div4 = $("<div style='z-index:999;position: absolute;width: 0px;height: 0px;border: "+borderWidth/2+"px solid "+this.settings.color+";display: none;'></div>")
+        	switch (type) {
+        		case 'CW':
+        		case 'CCW':
+	        		$div1.css({"top":-borderWidth,"left": -borderWidth     });
+		        	$div2.css({"top":-this.settings.width,"right": -borderWidth    });
+		        	$div3.css({"bottom": -borderWidth,"right": -borderWidth});
+		        	$div4.css({"bottom": -borderWidth,"left": -borderWidth });
+        			break;
+        		case 'MID':
+        			$div1.css({"top":-borderWidth,"left": width/2     });
+		        	$div2.css({"top":height/2,"right": -borderWidth    });
+		        	$div3.css({"bottom": -borderWidth,"right": width/2});
+		        	$div4.css({"bottom": height/2,"left": -borderWidth });
+        		default:
+        			break;
+        	}
         	e.append($div1)
         	 .append($div2)
         	 .append($div3)
@@ -56,30 +101,93 @@
 				var t2 = time2;
 				var t3 = time3;
 				var t4 = time4;
-				if ($div1.width() >= width) {
-					t1 = 0;
-				}
-				if ($div2.height() >= height ) {
-					t2 = 0;
-				}
-				if ($div3.width() >= width) {
-					t3 = 0;
-				}
-				if ($div4.height() >= height ) {
-					t4 = 0;
-				}
-				$div1.css({display:'block'});
-				$div1.animate({width:width},t1,function(){
-					$div2.css({display:'block'});
-					$div2.animate({height:height},t2,function(){
-						$div3.css({display:'block'});
-						$div3.animate({width:width},t3,function(){
-							$div4.css({display:'block'});
-							$div4.animate({height:height},t4,function(){
-							});
+				
+				switch (type){
+					//顺时针
+					case 'CW':
+						if ($div1.width() >= width) {
+							t1 = 0;
+						}
+						if ($div2.height() >= height ) {
+							t2 = 0;
+						}
+						if ($div3.width() >= width) {
+							t3 = 0;
+						}
+						if ($div4.height() >= height ) {
+							t4 = 0;
+						}
+						$div1.css({display:'block'});
+						$div1.animate({width:width},t1,function(){
+							$div2.css({display:'block'});
+							$div2.animate({height:height},t2,function(){
+								$div3.css({display:'block'});
+								$div3.animate({width:width},t3,function(){
+									$div4.css({display:'block'});
+									$div4.animate({height:height},t4,function(){
+									});
+								});
+							})
 						});
-					})
-				});
+						break;
+					//逆时针
+					case 'CCW':
+						if ($div2.width() >= width) {
+							t1 = 0;
+						}
+						if ($div1.height() >= height ) {
+							t2 = 0;
+						}
+						if ($div4.width() >= width) {
+							t3 = 0;
+						}
+						if ($div3.height() >= height ) {
+							t4 = 0;
+						}
+						$div2.css({display:'block'});
+						$div2.animate({width:width},t1,function(){
+							$div1.css({display:'block'});
+							$div1.animate({height:height},t1,function(){
+								$div4.css({display:'block'});
+								$div4.animate({width:width},t1,function(){
+									$div3.css({display:'block'});
+									$div3.animate({height:height},t1,function(){
+									});
+								});
+							});
+						})
+						break;
+					//中间向俩边
+					case 'MID':
+						if ($div1.width() >= width) {
+							t1 = 0;
+						}
+//						if ($div2.height() >= height ) {
+//							t2 = 0;
+//						}
+//						if ($div3.width() >= width) {
+//							t3 = 0;
+//						}
+//						if ($div4.height() >= height ) {
+//							t4 = 0;
+//						}
+						$div1.css({display:'block'});
+						$div1.animate({width:width,left:-borderWidth},t1,function(){
+						});
+						$div2.css({display:'block'});
+						$div2.animate({height:height,top:-borderWidth},t1,function(){
+						})
+						$div3.css({display:'block'});
+						$div3.animate({width:width,right:-borderWidth},t1,function(){
+						});
+						$div4.css({display:'block'});
+						$div4.animate({height:height,bottom:-borderWidth},t1,function(){
+						});
+						break;
+					default:
+						break;
+				}
+				
 			});
 			e.on('mouseout',function(){
 				var $div1 = $($(this).find('div')[0]).stop();
@@ -90,30 +198,82 @@
 				var t2 = time2;
 				var t3 = time3;
 				var t4 = time4;
-				if ($div1.width() <= 0) {
-					t1 = 0;
-				}
-				if ($div2.height() <= 0 ) {
-					t2 = 0;
-				}
-				if ($div3.width() <= 0) {
-					t3 = 0;
-				}
-				if ($div4.height() <= 0 ) {
-					t4 = 0;
-				}
-				$div4.animate({height:'0px'},t4,function(){
-					$div4.css({display:'none'});
-					$div3.animate({width:'0px'},t3,function(){
-						$div3.css({display:'none'});
-						$div2.animate({height:'0px'},t2,function(){
-							$div2.css({display:'none'});
-							$div1.animate({width:'0px'},t1,function(){
-								$div1.css({display:'none'});
+				
+				switch (type){
+					case 'CW':
+						if ($div1.width() <= 0) {
+							t1 = 0;
+						}
+						if ($div2.height() <= 0 ) {
+							t2 = 0;
+						}
+						if ($div3.width() <= 0) {
+							t3 = 0;
+						}
+						if ($div4.height() <= 0 ) {
+							t4 = 0;
+						}
+						$div4.animate({height:'0px'},t4,function(){
+							$div4.css({display:'none'});
+							$div3.animate({width:'0px'},t3,function(){
+								$div3.css({display:'none'});
+								$div2.animate({height:'0px'},t2,function(){
+									$div2.css({display:'none'});
+									$div1.animate({width:'0px'},t1,function(){
+										$div1.css({display:'none'});
+									});
+								});
 							});
 						});
-					});
-				});
+						break;
+					case 'CCW':
+						// 3,4,1,2
+						if ($div3.height() <= 0) {
+							t1 = 0;
+						}
+						if ($div4.width() <= 0 ) {
+							t2 = 0;
+						}
+						if ($div1.height() <= 0) {
+							t3 = 0;
+						}
+						if ($div2.width() <= 0 ) {
+							t4 = 0;
+						}
+						$div3.animate({height:'0px'},t4,function(){
+							$div3.css({display:'none'});
+							$div4.animate({width:'0px'},t3,function(){
+								$div4.css({display:'none'});
+								$div1.animate({height:'0px'},t2,function(){
+									$div1.css({display:'none'});
+									$div2.animate({width:'0px'},t1,function(){
+										$div2.css({display:'none'});
+									});
+								});
+							});
+						});
+						break;
+					case 'MID':
+						if ($div1.width() < width) {
+							t1 = 0;
+						}
+						$div1.animate({width:0,left:width/2},t1,function(){
+							$(this).css({display:'none'});
+						});
+						$div2.animate({height:0,top:height/2},t1,function(){
+							$(this).css({display:'none'});
+						})
+						$div3.animate({width:0,right:width/2},t1,function(){
+							$(this).css({display:'none'});
+						});
+						$div4.animate({height:0,bottom:height/2},t1,function(){
+							$(this).css({display:'none'});
+						});
+						break;
+					default:
+						break;
+				}
+				
 			});
         }
     };

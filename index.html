@@ -5,12 +5,12 @@
 		<title></title>
 		<style type="text/css">
 			#test:hover{
-				cursor:w-resize;
+				cursor:pointer;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="test" style="width: 200px;height: 30px;border: 1px solid #eee;">
+		<div id="test" style="width: 500px;height: 70px;">
 		</div>
 		<br />
 		<div id="test1" style="width: 200px;height: 30px;border: 1px solid #eee;">
@@ -21,9 +21,9 @@
 		<script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jquery.surround.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			$("#test").surround({color:'#f00'});
-			$("#test1").surround({width:14});
-			$("#test2").surround({time:[3000,2000,2000,3000]});
+			$("#test").surround({time:[3000,2000,2000,3000],color:'#f00'});
+			$("#test1").surround({width:14,type:'CCW'});
+			$("#test2").surround({type:'MID'});
 		</script>
 	</body>
 </html>
