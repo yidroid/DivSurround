@@ -4,30 +4,47 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<style type="text/css">
-			#test:hover{
+			div:hover{
 				cursor:pointer;
+			}
+			label {
+				line-height: 30px;
+				text-align: center;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="test" style="width: 500px;height: 70px;">
+		<div id="test" style="width: 200px;height: 30px;">
+			<label>顺时针</label>
 		</div>
+		
 		<br />
 		<div id="test1" style="width: 200px;height: 30px;border: 1px solid #eee;">
+			<label>逆时针</label>
 		</div>
+		
 		<br />
 		<div id="test2" style="width: 200px;height: 30px;cursor:pointer">
+			<label>中间向俩边伸展的效果</label>
 		</div>
+		
 		<br />
 		<div id="test3" style="width: 200px;height: 30px;cursor:pointer">
+			<label>渐显的效果</label>
+		</div>
+		
+		<br />
+		<div id="test4" style="width: 200px;height: 30px;cursor:pointer">
+			<label>四周飞向边框的效果</label>
 		</div>
 		<script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jquery.surround.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			$("#test").surround({time:[3000,2000,2000,3000],color:'#f00'});
+			$("#test").surround({time:[500,300,500,300],color:'#f00'});
 			$("#test1").surround({width:4,type:'CCW'});
 			$("#test2").surround({type:'MID',color:'#eee'});
-			$("#test3").surround({time:1000,type:'MID',color:'#eee'});
+			$("#test3").surround({time:1000,type:'GRA',color:'#eee'});
+			$("#test4").surround({type:'ARO'});
 		</script>
 	</body>
 </html>
